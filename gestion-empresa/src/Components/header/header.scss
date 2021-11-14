@@ -1,0 +1,19 @@
+/*  src/Title.css  */
+.Title {
+    box-sizing: border-box;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 1em;
+    margin-bottom: 2em;
+    background-color: #2196F3;;
+    color: #fff;
+}
+
+a{
+    display: flex;
+    padding-right: 20px;
+    text-decoration: none;
+    color: #fff;
+}
