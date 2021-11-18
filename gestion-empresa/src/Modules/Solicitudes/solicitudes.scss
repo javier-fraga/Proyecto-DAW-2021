@@ -1,0 +1,8 @@
+.solicitudes{
+    display: flex;
+    flex-direction: row;
+    &_lista_{
+        display: flex;
+        flex-direction: column;
+    }
+}

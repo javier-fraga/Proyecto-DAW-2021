@@ -1,5 +1,6 @@
 import firebase from "firebase/compat/app";
 import 'firebase/compat/auth';
+import { browserLocalPersistence , setPersistence} from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAUNUBPgyij9PaZ-Mg9BLF7OVx9L_vUcLw",
@@ -16,10 +17,11 @@ firebase.initializeApp(firebaseConfig);
 export const auth = firebase.auth();
 
 const provider = new firebase.auth.GoogleAuthProvider();
+
 provider.setCustomParameters({ prompt: 'select_account' });
 
-export const signInWithGoogle = () => auth.signInWithPopup(provider);
-
 export const signInWithEmailAndPassword = (email,password) => auth.signInWithEmailAndPassword(email,password);
+
+export const setPersistenceLocal = () =>  setPersistence(auth, browserLocalPersistence);
 
 export default firebase;

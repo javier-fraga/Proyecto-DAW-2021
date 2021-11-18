@@ -1,26 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import 'firebase/auth';
 import './login.scss'
-import { signInWithEmailAndPassword } from '../../Services/firebase.js';
+import { signInWithEmailAndPassword , setPersistenceLocal} from '../../Services/firebase.js';
 import { useNavigate } from "react-router-dom";
+
 
 const Login = (props)=>{
 
     const [email,setEmail] = useState("");
     const [password,setPassword] = useState("");
     const navigate = useNavigate();
+    const [error,setError] = useState();
 
     const submit = () => {
-        signInWithEmailAndPassword(email,password).then(
-            response => {
-                props.onSubmit(response.user);
-                console.log(response.user);
-            },
-            error =>{
-                console.log(error);
-            }
+      setPersistenceLocal();
+      signInWithEmailAndPassword(email,password).then(
+          response => {
+              props.onSubmit(response.user);
+              console.log(response.user);
+          },
+          error =>{
+            setError(error.message);
+          }
 
-        );
+      );
     }
 
     useEffect(()=>{
@@ -28,24 +31,47 @@ const Login = (props)=>{
           navigate("/",{replace: true});
     },[props.user])
 
-    console.log(props.user);
 
     if(!props.user)
       return(
-        <div className="wrapper">
-          <form className="login" onSubmit={e=> {e.preventDefault(); submit();}}>
-              <p className="title">Iniciar sesión</p>
-              <input type="email" placeholder="Correo electronico" autofocus
-              onChange={ e => setEmail(e.target.value)}/>
-              <input type="password" placeholder="Contraseña" 
-              onChange={ e => setPassword(e.target.value)}/>
-              <a href="#">Forgot your password?</a>
-              <button>
-              <i className="spinner"></i>
-              <span className="state">Log in</span>
-              </button>
+        <div>
+      {!props.user && <div className='login'>
+          <form
+            className='login__form'
+            onSubmit={e => {e.preventDefault();
+              submit();}}
+          >
+            <input
+              type='text'
+              className='login__form__input'
+              placeholder='Email'
+              value={email}
+              onChange={e =>
+                setEmail(e.target.value)
+              }
+            />
+            <input
+              type='password'
+              className='login__form__input'
+              placeholder='Contraseña'
+              value={password}
+              onChange={e =>
+                setPassword(e.target.value)
+              }
+            />
+            <button className='login__form__button'>Entrar</button>
+            <div
+              className='login__form__error'
+              style={{
+                opacity: error != null ? 1 : 0,
+                height: error != null ? 'auto' : 0
+              }}
+            >
+              <span className='message'>Error al iniciar sesión</span>
+            </div>
           </form>
-        </div>
+      </div>}
+    </div>
       )
     else
       return null;

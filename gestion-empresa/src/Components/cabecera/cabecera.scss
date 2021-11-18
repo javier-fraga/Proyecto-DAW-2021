@@ -1,0 +1,29 @@
+/*  src/Title.css  */
+.cabecera {
+    box-sizing: border-box;
+    width: 100%;
+    height: 13vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1em;
+    background-color: #2196F3;;
+    color: #fff;
+    &_titulo{
+        font-size: 5vh;
+    }
+    &_boton{
+        width: 30%;
+        height: fit-content;
+    }
+    &_logout{
+        width: 30%;
+        height: fit-content;
+        text-align: right;
+        &_link{
+           &:hover{
+               cursor: pointer;
+           }
+        }
+    }
+}

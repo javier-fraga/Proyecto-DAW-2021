@@ -1,82 +1,50 @@
-$primary: #2196F3;
-
-body {
-  font-family: "Open Sans", sans-serif;
-  height: 100vh;
-  background-color: #444;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-.wrapper {
-  display: flex;
-  align-items: center;
-  flex-direction: column; 
-  justify-content: center;
-  width: 100%;
-  min-height: 100%;
-  padding: 20px;
-}
-
-
 .login {
-  
-  border-radius: 2px 2px 5px 5px;
-  padding: 10px 20px 20px 20px;
-  width: 90%;
-  max-width: 320px;
-  background: #ffffff;
-  position: relative;
-  padding-bottom: 80px;
-  box-shadow: 0px 1px 5px rgba(0,0,0,0.3);
-  
-  input {
-    display: block;
-    padding: 15px 10px;
-    margin-bottom: 10px;
-    width: 100%;
-    border: 1px solid #ddd;
-    transition: border-width 0.2s ease;
-    border-radius: 2px;
-    color: #444;
-    
+  position:absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: grey;
+  &__form {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+    width: 300px;
+    padding: 25px;
+    &__input {
+      height: 30px;
+      padding-left: 7.5px;
+      margin-bottom: 7.5px;
+    }
+    &__button {
+      height: 40px;
+      width: 100%;
+      margin-bottom: 7.5px;
+      color: white;
+      background-color: #1d74f5;
+      border: none;
+      cursor: pointer;
+    }
+    &__error {
+      display: flex;
+      align-items: center;
+      border: 1px solid white;
+      padding: 8px 4px 8px 4px;
+      transition: 0.5s ease opacity;
+      opacity: 0;
+      .icon {
+        font-size: 24px;
+        color: #d63031;
+      }
+      .message {
+        margin-left: 8px;
+        color: #d63031;
+      }
+    }
   }
-  
-  a {
-   font-size: 0.8em;   
-    color: $primary;
-    text-decoration: none;
+  &__loading{
+      display: flex;
+      flex: 1;
+      background-color: white;
   }
-  
-  .title {
-    color: #444;
-    font-size: 1.2em;
-    font-weight: bold;
-    margin: 10px 0 30px 0;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 20px;
-  }
-  
-  button {
-    width: 100%;
-    height: 100%;
-    padding: 10px 10px;
-    background: $primary;
-    color: #fff;
-    display: block;
-    border: none;
-    margin-top: 20px;
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    max-height: 60px;
-    border: 0px solid rgba(0,0,0,0.1);
-    border-radius: 0 0 2px 2px;
-    
-  }
-
-    
-  
 }

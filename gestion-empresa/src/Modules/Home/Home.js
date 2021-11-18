@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import 'firebase/auth';
 import { useNavigate } from "react-router-dom";
+import Solicitudes from '../Solicitudes/Solicitudes';
+
 
 const Home = (props)=>{
 
@@ -14,7 +16,7 @@ const Home = (props)=>{
     console.log(props.user);
     return(
           <div>
-              {props.user && props.user._delegate.email}
+              <Solicitudes/>
           </div>
       )
 }

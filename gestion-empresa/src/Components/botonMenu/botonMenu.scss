@@ -1,0 +1,10 @@
+.boton{
+    border: none;
+    width: 30px;
+    height: 30px;
+    background-image: url(./icono/menu.png);
+    background-size: contain;
+    &:hover{
+        cursor: pointer;
+    }
+}

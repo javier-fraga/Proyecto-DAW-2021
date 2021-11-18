@@ -1,18 +1,22 @@
 .container{
     display: flex;
     flex-flow: column wrap;
-
+    position:fixed;
     width: 300px;
     height: 100%;
     background-color: cornflowerblue;
+    &>div{
+        height: fit-content;
+        background-color: cornflowerblue;
+        border-style: initial;
+        padding: 10% 0;
+        text-align: center;
+        &:hover{
+            cursor: pointer;
+        }
+    }
 }
 
 .wrapper, html, body{
     height: 100%;
-}
-
-button{
-    height: 15%;
-    background-color: cornflowerblue;
-    border-style: initial;
 }

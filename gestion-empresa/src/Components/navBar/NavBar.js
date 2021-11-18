@@ -1,18 +1,34 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import 'firebase/auth';
 import './navBar.scss';
 
-function NavBar(props) {
+function NavBar({ user, toggleMenu }) {
 
-  const user = props.user;
+  const ref = useRef(null);
 
-  console.log(props.user);
+  const handleClickFuera = (e) => {
+    if(ref.current && !ref.current.contains(e.target))
+      toggleMenu();
+  }
+
+  useEffect(() => {
+    document.addEventListener('click', handleClickFuera);
+    return () => {
+      document.removeEventListener('click', handleClickFuera);
+    }
+  },[])
+
+  const redireccionar = () => {
+    toggleMenu();
+  }
+
+
   return (
-        <div className="container">
-            <button>Boton 1</button>
-            <button>Boton 2</button>
-            <button>Boton 3</button>
-            <button>Boton 4</button>
+        <div className="container" ref = {ref} >
+            <div onClick = {redireccionar}>Boton 1</div>
+            <div onClick = {redireccionar}>Boton 2</div>
+            <div onClick = {redireccionar}>Boton 3</div>
+            <div onClick = {redireccionar}>Boton 4</div>
         </div>
 
   )
