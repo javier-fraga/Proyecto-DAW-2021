@@ -1,6 +1,8 @@
 .solicitudes{
     display: flex;
     flex-direction: row;
+    height: 100%;
+    width: 100%;
     &_lista_{
         display: flex;
         flex-direction: column;

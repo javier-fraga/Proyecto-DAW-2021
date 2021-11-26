@@ -16,10 +16,6 @@ firebase.initializeApp(firebaseConfig);
 
 export const auth = firebase.auth();
 
-const provider = new firebase.auth.GoogleAuthProvider();
-
-provider.setCustomParameters({ prompt: 'select_account' });
-
 export const signInWithEmailAndPassword = (email,password) => auth.signInWithEmailAndPassword(email,password);
 
 export const setPersistenceLocal = () =>  setPersistence(auth, browserLocalPersistence);

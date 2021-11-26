@@ -1,14 +1,15 @@
 package com.proyecto.GestionTienda.clases;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -24,13 +25,17 @@ public class Stock {
     @Column(name="id")
     private long id;
     
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToOne()
     private Tienda tienda;
     
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToOne()
+    @JsonBackReference
+    @JoinColumn(name="producto_id")
     private Producto producto;
     
     @Column(name="cantidad")
     private int cantidad;
     
 }
+
+

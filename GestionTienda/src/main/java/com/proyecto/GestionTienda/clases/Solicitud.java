@@ -1,16 +1,12 @@
 package com.proyecto.GestionTienda.clases;
 
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -26,12 +22,14 @@ public class Solicitud {
 	    @Column(name="id")
 	    private long id;
 
-	    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	    @ManyToOne()
 	    private Empleado empleado;
 	    
-	    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	    @ManyToOne()
 	    private Tienda tienda;
 	    
-	    @OneToMany(mappedBy = "solicitud", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-	    private List<ListaProds> listaProds; 
+	    @ManyToOne()
+	    private Producto producto;
+	    
+	    private int cantidad;
 }

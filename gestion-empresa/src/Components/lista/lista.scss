@@ -1,0 +1,15 @@
+.editar{
+    display: table-cell;
+    background-image: url('./icon/edit.png');
+    background-size: contain;
+    height: 30px;
+    width: 30px;
+    &:hover{
+        cursor: pointer;
+    }
+}
+
+.lista{
+    width: 100vw;
+    height: 100%;
+}

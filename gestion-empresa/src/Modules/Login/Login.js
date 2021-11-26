@@ -9,8 +9,8 @@ const Login = (props)=>{
 
     const [email,setEmail] = useState("");
     const [password,setPassword] = useState("");
-    const navigate = useNavigate();
     const [error,setError] = useState();
+    const navigate = useNavigate(null);
 
     const submit = () => {
       setPersistenceLocal();
@@ -18,6 +18,7 @@ const Login = (props)=>{
           response => {
               props.onSubmit(response.user);
               console.log(response.user);
+              navigate('/solicitudes',{replace: true})
           },
           error =>{
             setError(error.message);
@@ -26,12 +27,7 @@ const Login = (props)=>{
       );
     }
 
-    useEffect(()=>{
-        if(props.user)
-          navigate("/",{replace: true});
-    },[props.user])
-
-
+    console.log(props.user);
     if(!props.user)
       return(
         <div>
