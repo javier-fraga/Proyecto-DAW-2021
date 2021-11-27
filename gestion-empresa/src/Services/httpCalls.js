@@ -42,14 +42,21 @@ export const newTienda = (ciudad, direccion, cp) => {
     return fetch('http://localhost:8080/tienda',fetchParams)
 }
 
-export const getStockByTienda = (id) => {
-    return fetch('http://localhost:8080/stock?idTienda=' + id)  
+export const getProductosByTienda = (id) => {
+    return fetch('http://localhost:8080/producto/' + id)  
+}
+
+export const getProductos = () => {
+    return fetch('http://localhost:8080/producto')
+}
+
+export const getSolicitudes = () => {
+    return fetch('http://localhost:8080/solicitud')
 }
 
 export const newSolicitud = () => {
     
 }
 
-export const getProductos = () => {
-    return fetch('http://localhost:8080/producto')
-}
+
+

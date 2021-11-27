@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react'
 import Lista from '../../Components/lista/Lista';
 import VentanaEditar from '../../Components/ventanaEditar/VentanaEditar';
-import { getProductosByTienda } from '../../Services/httpCalls';
-import './solicitudes.scss'
+import { getSolicitudes } from '../../Services/httpCalls';
 
-const Solicitudes = ({user}) =>{
+const ModificarSolicitudes = ({user}) =>{
 
     const [datos,setDatos] = useState([]);
     const [datosEditar, setDatosEditar] = useState(null);
@@ -52,7 +51,7 @@ const Solicitudes = ({user}) =>{
     useEffect(()=>{
         if (user){
             let datosTemp = [];
-            getProductosByTienda(user.tienda.id)
+            getSolicitudes(user.tienda.id)
             .then( data => data.json())
             .then( data => {data.forEach( item =>{
                 console.log(item);
@@ -79,7 +78,7 @@ const Solicitudes = ({user}) =>{
     return(
         <div className= 'solicitudes'>
             <div className='solicitudes_lista'>
-                {datos.length !=0 && <Lista columns = { columnas } datos = { datos } titulo = { titulo } noNuevo = { true }/>}
+                {datos.length !=0 && <Lista columns = { columnas } datos = { datos } titulo = { titulo }/>}
             </div>
             {datosEditar && <VentanaEditar columnas = { columnas } titulo = { titulo }
               datosEditar= { datosEditar } setDatosEditar={ setDatosEditar } enviarDatos = {enviarDatos}/>}
@@ -87,4 +86,4 @@ const Solicitudes = ({user}) =>{
     )
 }
 
-export default Solicitudes;
+export default ModificarSolicitudes;

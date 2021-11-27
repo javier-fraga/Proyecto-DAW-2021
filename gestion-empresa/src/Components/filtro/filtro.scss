@@ -1,0 +1,28 @@
+.filtro{
+    display: flex;
+    flex-flow: row nowrap;
+    &_input{
+        height: 32px;
+        width: 200px;
+        border-radius: 5px 0px 0px 5px;
+        border: 1px solid black;
+        padding: 0px 32px 0px 16px;
+    }
+    &_boton{
+        cursor: pointer;
+        box-sizing: border-box;
+        background-color: rgb(41, 121, 255);
+        border-color: initial;
+        color: rgb(232, 230, 227);
+        text-decoration-color: initial;
+        border-radius: 0px 5px 5px 0px;
+        border: none;
+        height: 32px;
+        width: 32px;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+

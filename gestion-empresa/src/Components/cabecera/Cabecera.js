@@ -5,7 +5,7 @@ import { auth } from '../../Services/firebase'
 import BotonMenu from '../botonMenu/BotonMenu';
 import { useNavigate } from 'react-router';
 
-function Header({signOut, user, toggleMenu}) {
+function Header({signOut, user, toggleMenu, abrir}) {
 
   const navigate = useNavigate(null);
 
@@ -15,11 +15,10 @@ function Header({signOut, user, toggleMenu}) {
     navigate('/login',{replace: true});
   }
 
-  console.log(user); 
   return (
     <div className='cabecera'>
       <div className='cabecera_boton'>
-        {user && <BotonMenu toggleMenu = {toggleMenu}/>}
+        {user && <BotonMenu toggleMenu = {toggleMenu} abrir = { abrir }/>}
       </div>
       <div className='cabecera_titulo'>Tienda Bicis</div>
       <div className='cabecera_logout'>

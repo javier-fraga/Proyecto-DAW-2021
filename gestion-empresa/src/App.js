@@ -35,7 +35,7 @@ function App() {
   return (
     <div>
       <BrowserRouter>
-        <Cabecera user = {user} signOut = {setUserInfo} toggleMenu = {toggleMenu}/>
+        <Cabecera user = {user} signOut = {setUserInfo} toggleMenu = {toggleMenu} abrir = { abrir }/>
         <div className = "homeContainer">
           {abrir && <NavBar abrir = {abrir} toggleMenu = {toggleMenu}/>}
           <Routes>

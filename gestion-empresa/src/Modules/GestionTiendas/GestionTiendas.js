@@ -15,6 +15,7 @@ const GestionTiendas = () =>{
             name: 'Ciudad',
             selector: row => row.ciudad,
             sortable: true,
+            filtro: true,
             tipo: 'campo',
 
         },
@@ -23,6 +24,7 @@ const GestionTiendas = () =>{
             name: 'Dirección',
             selector: row => row.direccion,
             sortable:true,
+            filtro: true,
             tipo: 'campo',
         },
         {
@@ -31,6 +33,7 @@ const GestionTiendas = () =>{
             selector: row => row.cp,
             sortable: true,
             tipo: 'campo',
+            filtro: true,
             grow: 2,
 
         },
@@ -39,7 +42,14 @@ const GestionTiendas = () =>{
             ignoreRowClick: true,
             allowOverflow: true,
             button: true,
-            allowRowEvents: true
+            allowRowEvents: true,
+            grow:0,
+        },
+        {
+            cell: (row) => <div className='borrar'/>,
+            ignoreRowClick: true,
+            allowRowEvents: true,
+            grow:0
         },
     ]
 
@@ -70,7 +80,7 @@ const GestionTiendas = () =>{
     return(
         <div className= 'solicitudes'>
             <div className='solicitudes_lista'>
-                {datos.length !=0 && <Lista columns = { columnas } datos = { datos }/>}
+                {datos.length !=0 && <Lista columns = { columnas } datos = { datos } titulo = { titulo }/>}
             </div>
             {datosEditar && <VentanaEditar columnas = { columnas } titulo = { titulo }
               datosEditar= { datosEditar } setDatosEditar={ setDatosEditar } enviarDatos = {enviarDatos}/>}

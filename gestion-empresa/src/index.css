@@ -20,6 +20,7 @@ code {
 
 .homeContainer{
   display:flex;
-  flex-flow: row ;
+  flex-flow: row;
+  width: 100%;
   height: 87vh;
 } 
