@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import Lista from "../../Components/lista/Lista";
 import VentanaEditar from "../../Components/ventanaEditar/VentanaEditar";
-import { getProductos } from "../../Services/httpCalls";
+import { getProductos, borrarProducto , newProducto, modificarProducto} from "../../Services/httpCalls";
 import Select from 'react-select';
+import ConfirmarEliminar from "../../Components/confirmarEliminar/ConfirmarEliminar";
 
-const GestionProductos = () =>{
+const GestionProductos = ({ tiendas }) =>{
 
     const [datos,setDatos] = useState([]);
     const [datosEditar, setDatosEditar] = useState(null);
+    const [borrar,setBorrar] = useState();
     const titulo = 'Gestion de productos';
 
     const customStyles = {
@@ -35,18 +37,18 @@ const GestionProductos = () =>{
             name: 'Producto',
             selector: row => row.nombre,
             sortable: true,
-            tipo: 'campo',
+            tipo: 'edit',
             filtro: true,
-            maxWidth:'20vw',
+            maxWidth: '20vw',
             grow:1
         },
         {
             id:'descripcion',
             name: 'Descripción',
             selector: row => row.descripcion,
-            tipo: 'campo',
+            tipo: 'edit',
             filtro: true,
-            maxWidth:'50vw',
+            maxWidth: '50vw',
             grow:3
         },
         {
@@ -54,7 +56,7 @@ const GestionProductos = () =>{
             name: 'Precio',
             selector: row => row.precio,
             sortable: true,
-            tipo: 'campo',
+            tipo: 'edit',
             grow:0
         },
         {
@@ -63,7 +65,8 @@ const GestionProductos = () =>{
             cell: (row) => <Select style = {{zindex:2000}} placeholder='Tiendas' menuPlacement = 'auto' styles={customStyles}
               options ={row.tiendas} getOptionLabel = {option => option.direccion} isOptionDisabled = {() => true}/>,
             grow:0,
-            width: "300px"
+            tipo: 'desplegable',
+            width: '300px'
         },
         {
             cell: (row) => <div className='editar' onClick={()=>setDatosEditar(row)}/>,
@@ -96,23 +99,33 @@ const GestionProductos = () =>{
                 }
             )
             console.log(tiendas);
-            })     
+            })
             setDatos(datosTemp);
         });
-
     },[]);
 
     const enviarDatos = () => {
-        
+        if(datos.id === ''){
+            newProducto(datos);
+        }else{
+            modificarProducto(datos);
+        }
+    }
+
+    const borrarDatos = () => {
+        borrarProducto(borrar);
+        setBorrar(null);
     }
 
     return(
         <div className= 'solicitudes'>
             <div className='solicitudes_lista'>
-                {datos.length !=0 && <Lista columns = { columnas } datos = { datos } titulo = { titulo }/>}
+                {datos.length !=0 && <Lista columns = { columnas } datos = { datos }
+                  titulo = { titulo } setDatosEditar ={ setDatosEditar }/>}
             </div>
-            {datosEditar && <VentanaEditar columnas = { columnas } titulo = { titulo }
-              datosEditar= { datosEditar } setDatosEditar={ setDatosEditar } enviarDatos = {enviarDatos}/>}
+            {datosEditar && <VentanaEditar columnas = { columnas } titulo = { titulo }  tiendas = { tiendas }
+              datosEditar= { datosEditar } setDatosEditar ={ setDatosEditar } enviarDatos = {enviarDatos}/>}
+            {borrar && <ConfirmarEliminar setBorrar = { setBorrar } borrarDatos = { borrarDatos }/>}
         </div>     
     )
 }

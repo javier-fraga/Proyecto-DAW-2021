@@ -1,11 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Lista from "../../Components/lista/Lista";
 import VentanaEditar from "../../Components/ventanaEditar/VentanaEditar";
-import { getTiendas } from "../../Services/httpCalls";
 
-const GestionTiendas = () =>{
+const GestionTiendas = ({ tiendas }) =>{
 
-    const [datos,setDatos] = useState([]);
     const [datosEditar, setDatosEditar] = useState(null);
     const titulo = 'Gestion de tiendas';
 
@@ -16,7 +14,7 @@ const GestionTiendas = () =>{
             selector: row => row.ciudad,
             sortable: true,
             filtro: true,
-            tipo: 'campo',
+            tipo: 'edit',
 
         },
         {
@@ -25,16 +23,15 @@ const GestionTiendas = () =>{
             selector: row => row.direccion,
             sortable:true,
             filtro: true,
-            tipo: 'campo',
+            tipo: 'edit',
         },
         {
             id:'cp',
             name: 'Codigo Postal',
             selector: row => row.cp,
             sortable: true,
-            tipo: 'campo',
+            tipo: 'edit',
             filtro: true,
-            grow: 2,
 
         },
         {
@@ -53,26 +50,6 @@ const GestionTiendas = () =>{
         },
     ]
 
-    useEffect(()=>{
-        let datosTemp = [];
-        getTiendas()
-        .then( data => data.json())
-        .then( data => {data.forEach( tienda =>{
-            datosTemp.push(
-                {
-                    "id": tienda.id,
-                    "ciudad": tienda.ciudad,
-                    "direccion": tienda.direccion,
-                    "cp": tienda.cp,
-
-                }
-            )
-            })
-            setDatos(datosTemp);
-        });
-
-    },[]);
-
     const enviarDatos = () => {
         
     }
@@ -80,7 +57,7 @@ const GestionTiendas = () =>{
     return(
         <div className= 'solicitudes'>
             <div className='solicitudes_lista'>
-                {datos.length !=0 && <Lista columns = { columnas } datos = { datos } titulo = { titulo }/>}
+              <Lista columns = { columnas } datos = { tiendas } titulo = { titulo } setDatosEditar ={ setDatosEditar }/>
             </div>
             {datosEditar && <VentanaEditar columnas = { columnas } titulo = { titulo }
               datosEditar= { datosEditar } setDatosEditar={ setDatosEditar } enviarDatos = {enviarDatos}/>}

@@ -3,9 +3,7 @@ import DataTable from 'react-data-table-component';
 import Filtro from '../filtro/Filtro';
 import './lista.scss'
 
-const Lista = ({ columns, datos , titulo, noNuevo })=>{
-    console.log(columns);
-    console.log(datos);
+const Lista = ({ columns, datos , titulo, noNuevo, setDatosEditar })=>{
 
     const customStyles = {
         table: {
@@ -46,18 +44,15 @@ const Lista = ({ columns, datos , titulo, noNuevo })=>{
     const filtro = () => {
         let datosFiltrados = datos;
         filterText.forEach(filter => {
-            console.log(datosFiltrados);
             datosFiltrados = datosFiltrados.filter(
                 item =>  item[filter.campo].toString().toLowerCase().includes(filter.text.toLowerCase()),
             )
         });
-        console.log(datosFiltrados);
         setFilteredItems(datosFiltrados);
     }
 
     const filtrado = (value,index) => {
         let items = [...filterText];
-        console.log(index);
         let item = [...filterText][index];
         item.text = value;
         items[index] = item;
@@ -68,7 +63,6 @@ const Lista = ({ columns, datos , titulo, noNuevo })=>{
         filtro()
         let filtros = [];  
         if(filterText.length !== 0){
-            console.log(filterText);
             let index = 0;
             columns.forEach((element) => {
                 if(element.filtro){
@@ -82,13 +76,13 @@ const Lista = ({ columns, datos , titulo, noNuevo })=>{
                         { titulo }
                     </div>
                     { filtros }
-                    {!noNuevo && <div className = 'lista_cabecera_nuevo'>
+                    {!noNuevo && <div className = 'lista_cabecera_nuevo' onClick = { () => setDatosEditar({id:''}) }>
                         Nuevo
                     </div>}
                 </div>
             );
         }
-	}, [filterText]);
+	}, [filterText, datos]);
 
     useEffect(() => {
         let filtros = [];  
@@ -105,8 +99,6 @@ const Lista = ({ columns, datos , titulo, noNuevo })=>{
         });
         setFilterText(filtros);
     },[])
-
-    console.log(filteredItems);
 
     return(
         <div className='lista'>

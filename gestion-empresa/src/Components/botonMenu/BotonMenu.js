@@ -7,8 +7,11 @@ const BotonMenu = ({ toggleMenu, abrir }) => {
 
     useEffect(()=>{
         if(ref)
-            ref.current.classList.toggle('cerrar')
-    },[ abrir ])
+            if(!abrir)
+                ref.current.classList.remove('cerrar');
+            else
+                ref.current.classList.add('cerrar');
+    },[ abrir ]);
 
     return(
         <div className='boton' onClick= {toggleMenu} ref = { ref }/>

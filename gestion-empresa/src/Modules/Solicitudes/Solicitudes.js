@@ -38,7 +38,7 @@ const Solicitudes = ({user}) =>{
             name: 'Cantidad',
             selector: row => row.cantidad,
             sortable: true,
-            tipo: 'numberInput'
+            tipo: 'stock'
         },
         {
             cell: (row) => <div className='editar' onClick={()=>setDatosEditar(row)}/>,

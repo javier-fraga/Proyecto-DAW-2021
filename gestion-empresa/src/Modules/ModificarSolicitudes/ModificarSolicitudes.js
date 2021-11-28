@@ -7,28 +7,30 @@ const ModificarSolicitudes = ({user}) =>{
 
     const [datos,setDatos] = useState([]);
     const [datosEditar, setDatosEditar] = useState(null);
-    const titulo = 'Solicitar stock';
+    const titulo = 'Consultar solicitudes stock';
 
     const columnas = [
         {
-            id:'nombre',
+            id:'producto',
             name: 'Producto',
-            selector: row => row.nombre,
+            selector: row => row.producto,
             sortable: true,
+            filtro: true,
             tipo: 'campo',
-            filtro: true
+
         },
         {
-            id:'descripcion',
-            name: 'Descripción',
-            selector: row => row.descripcion,
+            id:'tienda',
+            name: 'Tienda',
+            selector: row => row.tienda,
+            filtro: true,
             tipo: 'campo',
-            filtro: true
+
         },
         {
-            id:'precio',
-            name: 'Precio',
-            selector: row => row.precio,
+            id:'empleado',
+            name: 'Empleado',
+            selector: row => row.empleado,
             sortable: true,
             tipo: 'campo'
         },
@@ -37,7 +39,7 @@ const ModificarSolicitudes = ({user}) =>{
             name: 'Cantidad',
             selector: row => row.cantidad,
             sortable: true,
-            tipo: 'numberInput'
+            tipo: 'stock'
         },
         {
             cell: (row) => <div className='editar' onClick={()=>setDatosEditar(row)}/>,
@@ -53,15 +55,16 @@ const ModificarSolicitudes = ({user}) =>{
             let datosTemp = [];
             getSolicitudes(user.tienda.id)
             .then( data => data.json())
-            .then( data => {data.forEach( item =>{
+            .then( data => { console.log(data);data.forEach( item =>{
                 console.log(item);
                 datosTemp.push(
                     {
                         "id": item.id,
-                        "nombre": item.nombre,
-                        "descripcion": item.descripcion,
-                        "precio": item.precio,
-                        "cantidad": item.stocks.filter(s => s.tienda.id === user.tienda.id)[0].cantidad
+                        "producto": item.producto.nombre,
+                        "tienda": item.tienda.direccion,
+                        "empleado": item.empleado.email,
+                        "cantidad": item.cantidad
+
                     }
                 )
                 })

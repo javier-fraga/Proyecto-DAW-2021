@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
+import ConfirmarEliminar from "../../Components/confirmarEliminar/ConfirmarEliminar";
 import Lista from "../../Components/lista/Lista";
 import VentanaEditar from "../../Components/ventanaEditar/VentanaEditar";
-import { getEmpleados } from "../../Services/httpCalls";
+import { getEmpleados, modificarEmpleado, newEmpleado , borrarEmpleado } from "../../Services/httpCalls";
 
-const GestionEmpleados = () =>{
+const GestionEmpleados = ({ tiendas }) =>{
 
     const [datos,setDatos] = useState([]);
     const [datosEditar, setDatosEditar] = useState(null);
+    const [borrar,setBorrar] = useState();
     const titulo = 'Gestion de empleados';
     const columnas = [
         {
@@ -14,7 +16,7 @@ const GestionEmpleados = () =>{
             name: 'Nombre',
             selector: row => row.nombre,
             sortable: true,
-            tipo: 'campo',
+            tipo: 'edit',
             filtro: true,
             maxWidth: '20vw'
         },
@@ -23,7 +25,7 @@ const GestionEmpleados = () =>{
             name: 'Apellidos',
             selector: row => row.apellidos,
             sortable:true,
-            tipo: 'campo',
+            tipo: 'edit',
             filtro: true,
             maxWidth: '20vw'
         },
@@ -32,7 +34,7 @@ const GestionEmpleados = () =>{
             name: 'Email',
             selector: row => row.email,
             sortable: true,
-            tipo: 'campo',
+            tipo: 'edit',
             grow: 2,
             maxWidth: '20vw'
         },
@@ -42,15 +44,15 @@ const GestionEmpleados = () =>{
             selector: row => row.puesto,
             sortable: true,
             filtro: true,
-            tipo: 'numberInput',
+            tipo: 'edit',
             maxWidth: '20vw'
         },
         {
             id:'tienda',
             name: 'Tienda',
-            selector: row => row.tienda,
+            selector: row => row.tienda.direccion,
             sortable: true,
-            tipo: 'numberInput',
+            tipo: 'desplegable',
             filtro: true,
             grow:2,
             maxWidth: '20vw'
@@ -64,7 +66,7 @@ const GestionEmpleados = () =>{
             grow:0
         },
         {
-            cell: (row) => <div className='borrar'/>,
+            cell: (row) => <div className='borrar' onClick={()=>setBorrar(row)}/>,
             ignoreRowClick: true,
             allowRowEvents: true,
             grow:0
@@ -83,26 +85,37 @@ const GestionEmpleados = () =>{
                     "apellidos": empleado.apellidos,
                     "email": empleado.email,
                     "puesto": empleado.puesto,
-                    "tienda": empleado.tienda.direccion,
+                    "tienda": empleado.tienda,
                 }
             )
             })
             setDatos(datosTemp);
         });
 
-    },[]);
+    },[borrar]);
 
-    const enviarDatos = () => {
-        
+    const enviarDatos = (datos) => {
+        console.log(datos);
+        if(datos.id === ''){
+            newEmpleado(datos);
+        }else{
+            modificarEmpleado(datos);
+        }
+    }
+
+    const borrarDatos = () => {
+        borrarEmpleado(borrar);
+        setBorrar(null);
     }
 
     return(
         <div className= 'solicitudes'>
             <div className='solicitudes_lista'>
-                {datos.length !=0 && <Lista columns = { columnas } datos = { datos } titulo = { titulo }/>}
+                {datos.length !=0 && <Lista columns = { columnas } datos = { datos } titulo = { titulo } setDatosEditar = { setDatosEditar }/>}
             </div>
-            {datosEditar && <VentanaEditar columnas = { columnas } titulo = { titulo }
-              datosEditar= { datosEditar } setDatosEditar={ setDatosEditar } enviarDatos = {enviarDatos}/>}
+            {datosEditar && <VentanaEditar columnas = { columnas } titulo = { titulo } tiendas = { tiendas }
+              datosEditar= { datosEditar } setDatosEditar={ setDatosEditar } enviarDatos = {enviarDatos} />}
+            {borrar && <ConfirmarEliminar setBorrar = { setBorrar } borrarDatos = { borrarDatos }/>}
         </div>     
     )
 }
