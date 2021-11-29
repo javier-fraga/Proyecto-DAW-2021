@@ -29,7 +29,7 @@ function NavBar({ user, toggleMenu }) {
   return (
         <div className="container" ref = {ref} >
             <div onClick = {() =>redireccionar('/solicitudes')}>Solicitudes</div>
-            <div onClick = {() =>redireccionar('/solicitudes/modificar')}>Modificar solicitudes</div>
+            <div onClick = {() =>redireccionar('/solicitudes/consultar')}>Consultar solicitudes</div>
             <div onClick = {() =>redireccionar('/empleados')}>Gestionar Empleados</div>
             <div onClick = {() =>redireccionar('/tiendas')}>Gestionar Tiendas</div>
             <div onClick = {() =>redireccionar('/productos')}>Gestionar Productos</div>

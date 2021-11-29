@@ -6,6 +6,8 @@ const VentanaEditar = ({ setDatosEditar, columnas, datosEditar , titulo, enviarD
 
     const ref= useRef(null);
     const [valores,setValores] = useState({...datosEditar});
+    const [multiSelect, setMultiSelect] = useState (false);
+    const [mensajeError, setMensajeError] = useState();
 
     const crearElemento = (tipo, idElemento) => {
         let elemento;
@@ -30,6 +32,14 @@ const VentanaEditar = ({ setDatosEditar, columnas, datosEditar , titulo, enviarD
                 if(datos)
                     elemento.value = datos;
                 return elemento;
+            case 'editNumero':
+                elemento = document.createElement('input');
+                elemento.className = 'ventana_editar_formulario_campo';
+                elemento.oninput = e => modificarCampo(e.target.value,idElemento);
+                elemento.onkeydown= (event) => {return isNumber(event)};
+                if(datos)
+                    elemento.value = datos;
+                return elemento;
             case 'stock':
                 elemento = document.createElement('div');
                 elemento.className = 'ventana_editar_formulario_campo';
@@ -41,6 +51,9 @@ const VentanaEditar = ({ setDatosEditar, columnas, datosEditar , titulo, enviarD
                 elemento.value = {datos};
                 return elemento;
             case 'desplegable':
+                return null;
+            case 'desplegableMulti':
+                setMultiSelect(true);
                 return null;
         }
     }
@@ -77,10 +90,30 @@ const VentanaEditar = ({ setDatosEditar, columnas, datosEditar , titulo, enviarD
         }
 
     },[])
+
+    const comprobarValores = () => {
+        if(Object.keys(valores).length < columnas.length -2)
+          return 'No puede haber campos vacios';
+        if(JSON.stringify(valores) === JSON.stringify(datosEditar))
+          return 'No se ha modificado ningún dato';
+        for (var prop in valores){
+            if(prop === 'email')
+                if(!valores[prop].match(/^[a-z]{2,10}\.[a-z]{2,10}@todociclos.es$/))
+                    return 'El correo debe ser nombre.apellido@todociclos.es';
+            if(valores[prop] === '' && prop !== 'id')
+                return 'No puede haber campos vacios';
+        }
+        return false;
+    }
     
     const submit = () => {
-        enviarDatos(valores);
-        setDatosEditar(null);
+        console.log(valores);
+        let error = comprobarValores()
+        setMensajeError(error);
+        if(!error){
+            enviarDatos(valores);
+            setDatosEditar(null);
+        }
     }
     
     console.log(valores);
@@ -90,10 +123,13 @@ const VentanaEditar = ({ setDatosEditar, columnas, datosEditar , titulo, enviarD
             <div className= 'ventana_editar_formulario_titulo'>
                 {titulo}   
             </div>
-            {tiendas &&
-                  <Select options = { tiendas } className= 'ventana_editar_formulario_select' getOptionValue = { option => option.id} onChange = {e => modificarCampo(e,'tienda')}
+            {tiendas && 
+                !multiSelect && <Select options = { tiendas } className= 'ventana_editar_formulario_select' getOptionValue = { option => option.id} onChange = {e => modificarCampo(e,'tienda')}
                     getOptionLabel= {option => option.direccion} menuPlacement = 'top' defaultValue = {datosEditar.tienda}/>
-                }
+            }
+            {multiSelect && <Select options = { tiendas } className= 'ventana_editar_formulario_select' getOptionValue = { option => option.id} onChange = {e => modificarCampo(e,'tienda')}
+                    getOptionLabel= {option => option.direccion} menuPlacement = 'top' defaultValue = {datosEditar.tienda} isMulti/>}
+            <div className='ventana_editar_formulario_error'> {mensajeError} </div>
             <div className='ventana_editar_formulario_botones'>
                 <button onClick={submit} disabled = {valores.length < 1}>Confirmar</button>
                 <button onClick={()=>setDatosEditar(null)}>Volver</button>

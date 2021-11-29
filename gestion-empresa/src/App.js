@@ -11,7 +11,7 @@ import PrivateRoute from './Components/privateRoute/PrivateRoute';
 import Solicitudes from './Modules/Solicitudes/Solicitudes';
 import GestionTiendas from './Modules/GestionTiendas/GestionTiendas';
 import GestionProductos from './Modules/GestionProductos/GestionProductos';
-import ModificarSolicitudes from './Modules/ModificarSolicitudes/ModificarSolicitudes';
+import ConsultarSolicitudes from './Modules/ConsultarSolicitudes/ConsultarSolicitudes';
 
 function App() {
 
@@ -19,6 +19,7 @@ function App() {
   const [user,setUser] = useState(auth.currentUser);
   const [userInfo,setUserInfo] = useState(null);
   const [tiendas,setTiendas] = useState([]);
+  const [recargaTiendas,setRecargaTiendas] = useState(null);
 
   useEffect(()=>{
     if(user){
@@ -31,26 +32,36 @@ function App() {
 
   useEffect(()=>{
     let datosTemp = [];
-    getTiendas()
-    .then( data => data.json())
-    .then( data => {data.forEach( tienda =>{
-        datosTemp.push(
-            {
-                "id": tienda.id,
-                "ciudad": tienda.ciudad,
-                "direccion": tienda.direccion,
-                "cp": tienda.cp,
+    setTimeout(
+      () =>{
+        getTiendas()
+        .then( data => data.json())
+        .then( data => {data.forEach( tienda =>{
+            datosTemp.push(
+                {
+                    "id": tienda.id,
+                    "ciudad": tienda.ciudad,
+                    "direccion": tienda.direccion,
+                    "cp": tienda.cp,
+    
+                }
+            )
+            })
+            setTiendas(datosTemp);
+        });
+      },
+      150
+    )
 
-            }
-        )
-        })
-        setTiendas(datosTemp);
-    });
+  },[recargaTiendas]);
 
-  },[]);
 
   const toggleMenu = () =>{
     setAbrir(!abrir);
+  }
+
+  const recargarTiendas = () => {
+    setRecargaTiendas(!recargaTiendas);
   }
 
   console.log(userInfo);
@@ -64,9 +75,9 @@ function App() {
             <Route path="/login" element={<Login user={userInfo} onSubmit={setUser}/>}/>
             <Route path="/" element={<PrivateRoute><Navigate to="/solicitudes" /></PrivateRoute>}/>
             <Route path="/solicitudes" element={<PrivateRoute><Solicitudes user={userInfo}/></PrivateRoute>}/>
-            <Route path="/solicitudes/modificar" element={<PrivateRoute><ModificarSolicitudes user={userInfo}/></PrivateRoute>}/>
+            <Route path="/solicitudes/consultar" element={<PrivateRoute><ConsultarSolicitudes user={userInfo}/></PrivateRoute>}/>
             <Route path="/empleados" element={<PrivateRoute><GestionEmpleados user={userInfo} tiendas = { tiendas }/></PrivateRoute>}/>
-            <Route path="/tiendas" element={<PrivateRoute><GestionTiendas user={userInfo} tiendas = { tiendas }/></PrivateRoute>}/>
+            <Route path="/tiendas" element={<PrivateRoute><GestionTiendas user={userInfo} tiendas = { tiendas } recargarTiendas = { recargarTiendas }/></PrivateRoute>}/>
             <Route path="/productos" element={<PrivateRoute><GestionProductos user={userInfo} tiendas = { tiendas }/></PrivateRoute>}/>
           </Routes>
         </div>

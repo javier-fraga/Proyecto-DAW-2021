@@ -21,7 +21,6 @@
         height: fit-content;
         width: 50%;
         max-height: 80%;
-        overflow-y: scroll;
         border: solid 1px blue;
         border-radius: 5px;
         background-color: white;
@@ -45,13 +44,16 @@
             border-radius: 5px;
             order: 3;
         }
-
+        &_error{
+            color: red;
+            order: 4;
+        }
         &_botones{
             display: flex;
             flex-direction: row;
             justify-content: center;
             gap: 15px;
-            order: 3;
+            order: 5;
             margin-top: 15px;
             &>button{
                 width: 100px;

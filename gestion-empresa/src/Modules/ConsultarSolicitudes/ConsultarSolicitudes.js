@@ -3,7 +3,7 @@ import Lista from '../../Components/lista/Lista';
 import VentanaEditar from '../../Components/ventanaEditar/VentanaEditar';
 import { getSolicitudes } from '../../Services/httpCalls';
 
-const ModificarSolicitudes = ({user}) =>{
+const ConsultarSolicitudes = ({user}) =>{
 
     const [datos,setDatos] = useState([]);
     const [datosEditar, setDatosEditar] = useState(null);
@@ -40,13 +40,6 @@ const ModificarSolicitudes = ({user}) =>{
             selector: row => row.cantidad,
             sortable: true,
             tipo: 'stock'
-        },
-        {
-            cell: (row) => <div className='editar' onClick={()=>setDatosEditar(row)}/>,
-            ignoreRowClick: true,
-            allowOverflow: true,
-            button: true,
-            allowRowEvents: true
         },
     ]
 
@@ -89,4 +82,4 @@ const ModificarSolicitudes = ({user}) =>{
     )
 }
 
-export default ModificarSolicitudes;
+export default ConsultarSolicitudes;

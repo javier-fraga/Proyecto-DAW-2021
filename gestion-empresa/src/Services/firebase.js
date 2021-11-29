@@ -18,6 +18,8 @@ export const auth = firebase.auth();
 
 export const signInWithEmailAndPassword = (email,password) => auth.signInWithEmailAndPassword(email,password);
 
+export const createUserWithEmailAndPassword = (email) => auth.createUserWithEmailAndPassword(email,123456);
+
 export const setPersistenceLocal = () =>  setPersistence(auth, browserLocalPersistence);
 
 export default firebase;

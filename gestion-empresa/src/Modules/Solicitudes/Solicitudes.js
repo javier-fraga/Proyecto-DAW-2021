@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import Lista from '../../Components/lista/Lista';
 import VentanaEditar from '../../Components/ventanaEditar/VentanaEditar';
-import { getProductosByTienda } from '../../Services/httpCalls';
+import { getProductosByTienda, newSolicitud } from '../../Services/httpCalls';
 import './solicitudes.scss'
 
 const Solicitudes = ({user}) =>{
@@ -72,8 +72,8 @@ const Solicitudes = ({user}) =>{
 
     },[user]);
 
-    const enviarDatos = () => {
-        
+    const enviarDatos = (datos) => {
+        newSolicitud(user,datos)
     }
 
     return(

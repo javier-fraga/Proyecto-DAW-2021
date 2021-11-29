@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Lista from "../../Components/lista/Lista";
 import VentanaEditar from "../../Components/ventanaEditar/VentanaEditar";
-import { getProductos, borrarProducto , newProducto, modificarProducto} from "../../Services/httpCalls";
+import { getProductos, borrarProducto , newProducto, modificarProducto, newStocks, borrarStocks, newStock, borrarStock} from "../../Services/httpCalls";
 import Select from 'react-select';
 import ConfirmarEliminar from "../../Components/confirmarEliminar/ConfirmarEliminar";
 
@@ -10,6 +10,7 @@ const GestionProductos = ({ tiendas }) =>{
     const [datos,setDatos] = useState([]);
     const [datosEditar, setDatosEditar] = useState(null);
     const [borrar,setBorrar] = useState();
+    const [recargarProductos,setRecargarProductos] = useState(false);
     const titulo = 'Gestion de productos';
 
     const customStyles = {
@@ -56,16 +57,16 @@ const GestionProductos = ({ tiendas }) =>{
             name: 'Precio',
             selector: row => row.precio,
             sortable: true,
-            tipo: 'edit',
+            tipo: 'editNumero',
             grow:0
         },
         {
             id:'tiendas',
             name: 'Tiendas',
             cell: (row) => <Select style = {{zindex:2000}} placeholder='Tiendas' menuPlacement = 'auto' styles={customStyles}
-              options ={row.tiendas} getOptionLabel = {option => option.direccion} isOptionDisabled = {() => true}/>,
+              options ={row.tienda} getOptionLabel = {option => option.direccion} isOptionDisabled = {() => true}/>,
             grow:0,
-            tipo: 'desplegable',
+            tipo: 'desplegableMulti',
             width: '300px'
         },
         {
@@ -75,7 +76,7 @@ const GestionProductos = ({ tiendas }) =>{
             grow:0
         },
         {
-            cell: (row) => <div className='borrar'/>,
+            cell: (row) => <div className='borrar' onClick={()=>setBorrar(row)}/>,
             ignoreRowClick: true,
             allowRowEvents: true,
             grow:0
@@ -84,7 +85,9 @@ const GestionProductos = ({ tiendas }) =>{
 
     useEffect(()=>{
         let datosTemp = [];
-        getProductos()
+        setTimeout(
+            ()=>{
+                getProductos()
         .then( data => data.json())
         .then( data => {data.forEach( item =>{
             let tiendas = [];
@@ -95,27 +98,67 @@ const GestionProductos = ({ tiendas }) =>{
                     "nombre": item.nombre,
                     "descripcion": item.descripcion,
                     "precio": item.precio,
-                    "tiendas": tiendas
+                    "tienda": tiendas
                 }
             )
-            console.log(tiendas);
             })
             setDatos(datosTemp);
         });
-    },[]);
+            },
+            200
+        )
+        
+    },[recargarProductos]);
 
-    const enviarDatos = () => {
+    const enviarDatos = (datos) => {
         if(datos.id === ''){
-            newProducto(datos);
+            newProducto(datos)
+            .then( data => data.json())
+            .then(
+                producto => {
+                    console.log(producto);
+                    newStocks(datos,producto);
+                }
+            )
         }else{
-            modificarProducto(datos);
+            console.log(datosEditar);
+            console.log(datos);
+            datos.tienda.forEach(
+                dato => {
+                    if(!datosEditar.tienda.includes(dato)){
+                        let idProducto = datosEditar.id;
+                        let idTienda = dato.id;
+                        console.log(datosEditar);
+                        console.log(dato);
+                        newStock(idProducto , idTienda);
+                    }
+                        
+                }
+            )
+            datosEditar.tienda.forEach(
+                dato => {
+                    if(!datos.tienda.includes(dato)){
+                        let idProducto = datosEditar.id;
+                        let idTienda = dato.id;
+                        borrarStock(idProducto , idTienda);
+                    }
+                        
+                }
+            )
+            //modificarProducto(datos);
         }
+        setRecargarProductos(!recargarProductos);
     }
 
     const borrarDatos = () => {
-        borrarProducto(borrar);
+        console.log(borrar);
+        borrarStocks(borrar);
+        setTimeout(()=>{borrarProducto(borrar)},150);
         setBorrar(null);
+        setRecargarProductos(!recargarProductos);
     }
+
+    console.log(datos);
 
     return(
         <div className= 'solicitudes'>

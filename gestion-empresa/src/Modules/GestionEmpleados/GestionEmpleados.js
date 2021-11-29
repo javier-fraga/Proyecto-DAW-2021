@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import ConfirmarEliminar from "../../Components/confirmarEliminar/ConfirmarEliminar";
 import Lista from "../../Components/lista/Lista";
 import VentanaEditar from "../../Components/ventanaEditar/VentanaEditar";
+import { createUserWithEmailAndPassword } from "../../Services/firebase";
 import { getEmpleados, modificarEmpleado, newEmpleado , borrarEmpleado } from "../../Services/httpCalls";
 
 const GestionEmpleados = ({ tiendas }) =>{
@@ -9,6 +10,7 @@ const GestionEmpleados = ({ tiendas }) =>{
     const [datos,setDatos] = useState([]);
     const [datosEditar, setDatosEditar] = useState(null);
     const [borrar,setBorrar] = useState();
+    const [recargarEmpleados, setRecargarEmpleados] = useState(false);
     const titulo = 'Gestion de empleados';
     const columnas = [
         {
@@ -34,7 +36,7 @@ const GestionEmpleados = ({ tiendas }) =>{
             name: 'Email',
             selector: row => row.email,
             sortable: true,
-            tipo: 'edit',
+            tipo: 'campo',
             grow: 2,
             maxWidth: '20vw'
         },
@@ -92,20 +94,24 @@ const GestionEmpleados = ({ tiendas }) =>{
             setDatos(datosTemp);
         });
 
-    },[borrar]);
+    },[recargarEmpleados]);
 
     const enviarDatos = (datos) => {
         console.log(datos);
         if(datos.id === ''){
+            console.log(datos.email);
             newEmpleado(datos);
+            createUserWithEmailAndPassword(datos.email);
         }else{
             modificarEmpleado(datos);
         }
+        setRecargarEmpleados(!recargarEmpleados);
     }
 
     const borrarDatos = () => {
         borrarEmpleado(borrar);
         setBorrar(null);
+        setRecargarEmpleados(!recargarEmpleados);
     }
 
     return(

@@ -20,7 +20,7 @@ function Header({signOut, user, toggleMenu, abrir}) {
       <div className='cabecera_boton'>
         {user && <BotonMenu toggleMenu = {toggleMenu} abrir = { abrir }/>}
       </div>
-      <div className='cabecera_titulo'>Tienda Bicis</div>
+      <div className='cabecera_titulo'>TodoCiclos</div>
       <div className='cabecera_logout'>
         {user && <span className='cabecera_logout_link'onClick={() =>logOut()}>Cerrar sesión</span>}
       </div>
