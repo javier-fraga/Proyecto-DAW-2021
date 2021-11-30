@@ -9,6 +9,7 @@ const Solicitudes = ({user}) =>{
     const [datos,setDatos] = useState([]);
     const [datosEditar, setDatosEditar] = useState(null);
     const titulo = 'Solicitar stock';
+    const [recargarSolicitudes,setRecargarSolicitudes] = useState(false);
 
     const columnas = [
         {
@@ -70,10 +71,11 @@ const Solicitudes = ({user}) =>{
             });
         }
 
-    },[user]);
+    },[user,recargarSolicitudes]);
 
     const enviarDatos = (datos) => {
-        newSolicitud(user,datos)
+        newSolicitud(user,datos);
+        setRecargarSolicitudes(!recargarSolicitudes);
     }
 
     return(

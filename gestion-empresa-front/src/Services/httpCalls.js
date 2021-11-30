@@ -144,7 +144,7 @@ export const newSolicitud = (user,datos) => {
             'cantidad': datos.cantidad,
         })
     }
-    return fetch('http://localhost:8080/producto',fetchParams)
+    return fetch('http://localhost:8080/solicitud',fetchParams)
 }
 
 export const newStocks = ( datos, producto ) => {

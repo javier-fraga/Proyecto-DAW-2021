@@ -1,7 +1,10 @@
 package com.proyecto.GestionTienda.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,7 +26,12 @@ public class SolicitudController {
 	@PostMapping("/solicitud")
 	public Solicitud newSolicitud(@RequestBody Solicitud solicitud) {
 		solicitud = service.getSolicitud(solicitud);
-		return solicitud;
+		return repository.save(solicitud);
+	}
+	
+	@GetMapping("/solicitud")
+	public List<Solicitud> getAll(){
+		return repository.findAll();
 	}
 	
 }

@@ -34,7 +34,7 @@ const GestionTiendas = ({ tiendas, recargarTiendas }) =>{
             name: 'Codigo Postal',
             selector: row => row.cp,
             sortable: true,
-            tipo: 'edit',
+            tipo: 'editNumero',
             filtro: true,
 
         },
