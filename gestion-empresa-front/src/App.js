@@ -64,16 +64,15 @@ function App() {
     setRecargaTiendas(!recargaTiendas);
   }
 
-  console.log(userInfo);
   return (
     <div>
       <BrowserRouter>
         <Cabecera user = {userInfo} signOut = {setUserInfo} toggleMenu = {toggleMenu} abrir = { abrir }/>
         <div className = "homeContainer">
-          {abrir && <NavBar abrir = {abrir} toggleMenu = {toggleMenu}/>}
+          {abrir && userInfo && <NavBar abrir = {abrir} toggleMenu = {toggleMenu} user = {userInfo}/>}
           <Routes>
             <Route path="/login" element={<Login user={userInfo} onSubmit={setUser}/>}/>
-            <Route path="/" element={<PrivateRoute><Navigate to="/solicitudes" /></PrivateRoute>}/>
+            <Route path="/" element={<PrivateRoute><Navigate to="/solicitudes"/></PrivateRoute>}/>
             <Route path="/solicitudes" element={<PrivateRoute><Solicitudes user={userInfo}/></PrivateRoute>}/>
             <Route path="/solicitudes/consultar" element={<PrivateRoute><ConsultarSolicitudes user={userInfo}/></PrivateRoute>}/>
             <Route path="/empleados" element={<PrivateRoute><GestionEmpleados user={userInfo} tiendas = { tiendas }/></PrivateRoute>}/>

@@ -25,14 +25,28 @@ function NavBar({ user, toggleMenu }) {
     navigate(ruta,{replace: true});
   }
 
+  const comprobarPuesto = (puesto) =>{
+
+    if(puesto === user.puesto || user.puesto === 'Admin')
+     return true;
+    if(puesto === '')
+      if(user.puesto === 'Recursos humanos')
+        return false;
+      else
+        return true;
+    return false;
+    
+
+  }
+
 
   return (
         <div className="container" ref = {ref} >
-            <div onClick = {() =>redireccionar('/solicitudes')}>Solicitudes</div>
-            <div onClick = {() =>redireccionar('/solicitudes/consultar')}>Consultar solicitudes</div>
-            <div onClick = {() =>redireccionar('/empleados')}>Gestionar Empleados</div>
-            <div onClick = {() =>redireccionar('/tiendas')}>Gestionar Tiendas</div>
-            <div onClick = {() =>redireccionar('/productos')}>Gestionar Productos</div>
+            {comprobarPuesto('') &&<div onClick = {() =>redireccionar('/solicitudes')}>Solicitudes</div>}
+            {comprobarPuesto('') &&<div onClick = {() =>redireccionar('/solicitudes/consultar')}>Consultar solicitudes</div>}
+            {comprobarPuesto('Recursos humanos') &&<div onClick = {() =>redireccionar('/empleados')}>Gestionar Empleados</div>}
+            {comprobarPuesto('Directivo') &&<div onClick = {() =>redireccionar('/tiendas')}>Gestionar Tiendas</div>}
+            {comprobarPuesto('Directivo') &&<div onClick = {() =>redireccionar('/productos')}>Gestionar Productos</div>}
         </div>
 
   )
