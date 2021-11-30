@@ -107,7 +107,6 @@ const VentanaEditar = ({ setDatosEditar, columnas, datosEditar , titulo, enviarD
     }
     
     const submit = () => {
-        console.log(valores);
         let error = comprobarValores()
         setMensajeError(error);
         if(!error){
@@ -116,7 +115,6 @@ const VentanaEditar = ({ setDatosEditar, columnas, datosEditar , titulo, enviarD
         }
     }
     
-    console.log(valores);
     return (
       <div className='ventana_editar'>
         <div className='ventana_editar_formulario' ref={ref}>
@@ -124,11 +122,13 @@ const VentanaEditar = ({ setDatosEditar, columnas, datosEditar , titulo, enviarD
                 {titulo}   
             </div>
             {tiendas && 
-                !multiSelect && <Select options = { tiendas } className= 'ventana_editar_formulario_select' getOptionValue = { option => option.id} onChange = {e => modificarCampo(e,'tienda')}
-                    getOptionLabel= {option => option.direccion} menuPlacement = 'top' defaultValue = {datosEditar.tienda}/>
+                !multiSelect && <Select options = { tiendas } className= 'ventana_editar_formulario_select' getOptionValue = { option => option.id}
+                  onChange = {e => modificarCampo(e,'tienda')} getOptionLabel= {option => option.direccion}
+                  menuPlacement = 'top' defaultValue = {datosEditar.tienda}/>
             }
-            {multiSelect && <Select options = { tiendas } className= 'ventana_editar_formulario_select' getOptionValue = { option => option.id} onChange = {e => modificarCampo(e,'tienda')}
-                    getOptionLabel= {option => option.direccion} menuPlacement = 'top' defaultValue = {datosEditar.tienda} isMulti/>}
+            {multiSelect && <Select options = { tiendas } className= 'ventana_editar_formulario_select' getOptionValue = { option => option.id}
+              onChange = {e => modificarCampo(e,'tienda')} getOptionLabel= {option => option.direccion}
+              menuPlacement = 'top' defaultValue = {datosEditar.tienda} isMulti/>}
             <div className='ventana_editar_formulario_error'> {mensajeError} </div>
             <div className='ventana_editar_formulario_botones'>
                 <button onClick={submit} disabled = {valores.length < 1}>Confirmar</button>

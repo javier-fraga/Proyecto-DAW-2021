@@ -48,8 +48,4 @@ public class Servicio {
 		return solicitud; 
 	}
 	
-	public void eliminarTienda(Long id) {
-		
-	}
-	
 }

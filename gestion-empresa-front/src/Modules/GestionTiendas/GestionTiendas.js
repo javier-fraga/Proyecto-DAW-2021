@@ -6,7 +6,6 @@ import { borrarTienda, modificarTienda, newTienda } from "../../Services/httpCal
 
 const GestionTiendas = ({ tiendas, recargarTiendas }) =>{
 
-    const [datos,setDatos] = useState([]);
     const [datosEditar, setDatosEditar] = useState(null);
     const [borrar,setBorrar] = useState();
     const titulo = 'Gestion de tiendas';

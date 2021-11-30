@@ -97,9 +97,7 @@ const GestionEmpleados = ({ tiendas }) =>{
     },[recargarEmpleados]);
 
     const enviarDatos = (datos) => {
-        console.log(datos);
         if(datos.id === ''){
-            console.log(datos.email);
             newEmpleado(datos);
             createUserWithEmailAndPassword(datos.email);
         }else{
